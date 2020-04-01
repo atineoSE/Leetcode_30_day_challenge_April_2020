@@ -27,7 +27,7 @@ class Solution {
     }
     
     // Time: O(nlogn)
-    // Memory: O(1)
+    // Memory: O(n), because we copy the array in sorted() (can't sort in place unless inout input param)
     private func singleNumberNotUsingExtraMemory(_ nums:[Int]) -> Int {
         let sortedNums = nums.sorted()
         var singleNumber: Int? = nil
