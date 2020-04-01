@@ -28,8 +28,16 @@ class Solution {
 class TestCase: XCTestCase {
     @objc func testA() {
         let solution = Solution()
-        let input = [0]
+        let input = [2,2,1]
         let expectedOutput = 1
+        let actualOutput = solution.singleNumber(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testB() {
+        let solution = Solution()
+        let input = [4,1,2,1,2]
+        let expectedOutput = 4
         let actualOutput = solution.singleNumber(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
