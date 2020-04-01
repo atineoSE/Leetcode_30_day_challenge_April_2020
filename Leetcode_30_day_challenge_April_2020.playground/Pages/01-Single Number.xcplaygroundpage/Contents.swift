@@ -21,9 +21,13 @@ import Foundation
 
 class Solution {
     func singleNumber(_ nums: [Int]) -> Int {
+        assert(nums.count > 0)
+        assert(nums.count % 2 == 1)
         return singleNumberNotUsingExtraMemory(nums)
     }
     
+    // Time: O(nlogn)
+    // Memory: O(1)
     private func singleNumberNotUsingExtraMemory(_ nums:[Int]) -> Int {
         let sortedNums = nums.sorted()
         var singleNumber: Int? = nil
@@ -41,6 +45,8 @@ class Solution {
         return singleNumber!
     }
     
+    // Time: O(n)
+    // Space: O(n)
     private func singleNumberUsingExtraMemory(_ nums:[Int]) -> Int {
         var nonMatched = Set<Int>()
         for n in nums {
@@ -73,6 +79,14 @@ class TestCase: XCTestCase {
         let solution = Solution()
         let input = [2,1,3,1,3]
         let expectedOutput = 2
+        let actualOutput = solution.singleNumber(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testD() {
+        let solution = Solution()
+        let input = [5]
+        let expectedOutput = 5
         let actualOutput = solution.singleNumber(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
