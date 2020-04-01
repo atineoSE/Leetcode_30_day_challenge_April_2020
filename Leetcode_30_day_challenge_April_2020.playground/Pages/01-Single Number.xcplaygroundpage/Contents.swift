@@ -21,7 +21,34 @@ import Foundation
 
 class Solution {
     func singleNumber(_ nums: [Int]) -> Int {
-        return 0
+        return singleNumberNotUsingExtraMemory(nums)
+    }
+    
+    private func singleNumberNotUsingExtraMemory(_ nums:[Int]) -> Int {
+        let sortedNums = nums.sorted()
+        var singleNumber: Int? = nil
+        for current in sortedNums {
+            if singleNumber != nil {
+                if singleNumber! == current {
+                    singleNumber = nil
+                } else {
+                    return singleNumber!
+                }
+            } else {
+                singleNumber = current
+            }
+        }
+        return singleNumber!
+    }
+    
+    private func singleNumberUsingExtraMemory(_ nums:[Int]) -> Int {
+        var nonMatched = Set<Int>()
+        for n in nums {
+            if nonMatched.remove(n) == nil {
+                nonMatched.insert(n)
+            }
+        }
+        return nonMatched.first!
     }
 }
 
@@ -38,6 +65,14 @@ class TestCase: XCTestCase {
         let solution = Solution()
         let input = [4,1,2,1,2]
         let expectedOutput = 4
+        let actualOutput = solution.singleNumber(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testC() {
+        let solution = Solution()
+        let input = [2,1,3,1,3]
+        let expectedOutput = 2
         let actualOutput = solution.singleNumber(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
