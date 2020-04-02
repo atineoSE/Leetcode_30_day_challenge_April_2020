@@ -19,20 +19,83 @@
  1^2 + 0^2 + 0^2 = 1
  */
 
-import Foundation
 
+/*:
+ Note that the cycle can be within a section of the calculated values, for instance:
+ 77 -> 98 -> 145 -> 42 -> 20 -> 4 -> 16 -> 37 -> 58 -> 89 -> back to 145...
+ */
+
+import Foundation
 
 class Solution {
     func isHappy(_ n: Int) -> Bool {
-        return false
+        precondition(n >= 0)
+        
+        var value = n
+        print(value)
+        var computedValues: Set<Int> = []
+        
+        while (value != 1 && !computedValues.contains(value)) {
+            computedValues.insert(value)
+            value = value.sumfOfDigitsSquared
+            print(value)
+        }
+
+        return value == 1
     }
 }
 
+extension Int {
+    var sumfOfDigitsSquared: Int {
+        let numberAsString = String(self)
+        var result = 0
+        for char in numberAsString {
+            result += Int(pow(Float(String(char))!,2))
+        }
+        return result
+    }
+}
+
+
+
+
 class TestCase: XCTestCase {
+    
+    @objc func testInt1() {
+        let input = 19
+        let actualOutput = input.sumfOfDigitsSquared
+        let expectedOutput = 82
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
     @objc func testA() {
         let solution = Solution()
         let input = 19
         let expectedOutput = true
+        let actualOutput = solution.isHappy(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testB() {
+        let solution = Solution()
+        let input = 1
+        let expectedOutput = true
+        let actualOutput = solution.isHappy(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testC() {
+        let solution = Solution()
+        let input = 100
+        let expectedOutput = true
+        let actualOutput = solution.isHappy(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testD() {
+        let solution = Solution()
+        let input = 77
+        let expectedOutput = false
         let actualOutput = solution.isHappy(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
