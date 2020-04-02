@@ -23,7 +23,13 @@ class Solution {
     func singleNumber(_ nums: [Int]) -> Int {
         assert(nums.count > 0)
         assert(nums.count % 2 == 1)
-        return singleNumberNotUsingExtraMemory(nums)
+        return singleNumberWithXor(nums)
+    }
+    
+    // Time: O(n)
+    // Memory: O(1)
+    private func singleNumberWithXor(_ nums:[Int]) -> Int {
+        return nums.reduce(0, ^)
     }
     
     // Time: O(nlogn)
