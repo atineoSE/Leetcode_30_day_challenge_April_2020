@@ -29,21 +29,63 @@ import Foundation
 
 class Solution {
     func isHappy(_ n: Int) -> Bool {
+        //return isHappyOO(n)
+        return isHappyProcedural(n)
+    }
+    
+    func isHappyOO(_ n: Int) -> Bool {
+        guard n != 1 else { return true }
+        
+        let generator = HappyNumberGenerator(initialValue: n)
+        var number: Int? = n
+        while number != nil {
+            number = generator.nextUniqueNumber()
+            //print(number ?? "nil")
+        }
+        return generator.isHappy
+    }
+    
+    func isHappyProcedural(_ n: Int) -> Bool {
         precondition(n >= 0)
         
         var value = n
-        print(value)
+        //print(value)
         var computedValues: Set<Int> = []
         
         while (value != 1 && !computedValues.contains(value)) {
             computedValues.insert(value)
             value = value.sumfOfDigitsSquared
-            print(value)
+            //print(value)
         }
 
         return value == 1
     }
 }
+
+class HappyNumberGenerator {
+    private var computedValues: Set<Int>
+    private var currentValue: Int
+    
+    init(initialValue: Int) {
+        currentValue = initialValue
+        computedValues = []
+    }
+    
+    func nextUniqueNumber() -> Int? {
+        currentValue = currentValue.sumfOfDigitsSquared
+        if computedValues.contains(currentValue) {
+            return nil
+        } else {
+            computedValues.insert(currentValue)
+            return currentValue
+        }
+    }
+    
+    var isHappy: Bool {
+        return computedValues.contains(1)
+    }
+}
+
 
 extension Int {
     var sumfOfDigitsSquared: Int {
@@ -55,9 +97,6 @@ extension Int {
         return result
     }
 }
-
-
-
 
 class TestCase: XCTestCase {
     
