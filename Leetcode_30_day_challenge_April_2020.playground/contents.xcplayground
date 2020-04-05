@@ -5,5 +5,6 @@
         <page name='02-Happy Number'/>
         <page name='03-Maximum Subarray'/>
         <page name='04-Move Zeroes'/>
+        <page name='05-Buy&amp;SellStock2'/>
     </pages>
 </playground>
