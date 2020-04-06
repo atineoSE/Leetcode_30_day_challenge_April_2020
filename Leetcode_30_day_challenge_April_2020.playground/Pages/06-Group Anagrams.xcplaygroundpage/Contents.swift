@@ -25,20 +25,49 @@ import Foundation
 
 class Solution {
     func groupAnagrams(_ strs: [String]) -> [[String]] {
-        return [[]]
+        
+        var bagOfWords: [String:[String]] = [:]
+        
+        for word in strs {
+            let sortedWord = String(word.sorted())
+            var array = bagOfWords[sortedWord]
+            if array != nil {
+                array!.append(word)
+            } else {
+                array = [word]
+            }
+            bagOfWords[sortedWord] = array
+        }
+        
+        return Array(bagOfWords.values)
     }
 }
+
 
 class TestCase: XCTestCase {
     
     @objc func testA() {
         let solution = Solution()
         let input = ["eat", "tea", "tan", "ate", "nat", "bat"]
-        let expectedOutput = [
-          ["ate","eat","tea"],
-          ["nat","tan"],
-          ["bat"]
-        ]
+        let expectedOutput = Set([
+          Set(["ate","eat","tea"]),
+          Set(["nat","tan"]),
+          Set(["bat"])
+        ])
+        let actualOutput = solution.groupAnagrams(input)
+        
+        var convertedOutput: Set<Set<String>> = Set()
+        for array in actualOutput {
+            convertedOutput.insert(Set(array))
+        }
+        
+        XCTAssertEqual(convertedOutput, expectedOutput)
+    }
+    
+    @objc func testB() {
+        let solution = Solution()
+        let input = ["eat"]
+        let expectedOutput = [["eat"]]
         let actualOutput = solution.groupAnagrams(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
