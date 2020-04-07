@@ -41,8 +41,24 @@ Constraints:
 import Foundation
 
 class Solution {
+    // Time: O(n^2) in worst-case, but expected case is O(nlogn), given we sort the array,
+    // thus the lookup for the first matching index won't be generally O(n)
+    // Space: O(N)
     func countElements(_ arr: [Int]) -> Int {
-        return 0
+        assert(arr.count > 0)
+        let sortedArr = arr.sorted()
+
+        var i = 0
+        var count = 0
+        let elemCount = sortedArr.count
+        while i < elemCount-1 {
+            let cur = sortedArr[i]
+            if let _ = sortedArr[(i+1)..<elemCount].firstIndex(where: { $0 == cur + 1 }) {
+                count += 1
+            }
+            i += 1
+        }
+        return count
     }
 }
 
@@ -54,7 +70,7 @@ class TestCase: XCTestCase {
         let actualOutput = solution.countElements(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-    
+
     @objc func testB() {
         let solution = Solution()
         let input = [1,1,3,3,5,5,7,7]
@@ -62,7 +78,7 @@ class TestCase: XCTestCase {
         let actualOutput = solution.countElements(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-    
+
     @objc func testC() {
         let solution = Solution()
         let input = [1,3,2,3,5,0]
@@ -70,10 +86,26 @@ class TestCase: XCTestCase {
         let actualOutput = solution.countElements(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-    
+
     @objc func testD() {
         let solution = Solution()
         let input = [1,1,2,2]
+        let expectedOutput = 2
+        let actualOutput = solution.countElements(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testE() {
+        let solution = Solution()
+        let input = [1,1,2,3]
+        let expectedOutput = 3
+        let actualOutput = solution.countElements(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testF() {
+        let solution = Solution()
+        let input = [1,1,2]
         let expectedOutput = 2
         let actualOutput = solution.countElements(input)
         XCTAssertEqual(actualOutput, expectedOutput)
