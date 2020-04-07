@@ -7,5 +7,6 @@
         <page name='04-Move Zeroes'/>
         <page name='05-Buy&amp;SellStock2'/>
         <page name='06-Group Anagrams'/>
+        <page name='07-Counting Elements'/>
     </pages>
 </playground>
