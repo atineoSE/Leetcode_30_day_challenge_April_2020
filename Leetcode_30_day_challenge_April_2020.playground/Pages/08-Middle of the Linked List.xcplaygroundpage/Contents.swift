@@ -41,9 +41,28 @@ public class ListNode {
     }
 }
 
+func myPrint(_ arg: Any) {
+    print(arg)
+}
+
 class Solution {
     func middleNode(_ head: ListNode?) -> ListNode? {
-        return nil
+        assert(head != nil)
+        
+        var middleNode: ListNode? = head
+        var currentNode: ListNode? = head
+        var shouldAdvance = false
+        
+        while currentNode != nil {
+            //myPrint("current node: \(currentNode!.val) , middle node: \(middleNode!.val)")
+            if shouldAdvance {
+                middleNode = middleNode!.next
+            }
+            shouldAdvance.toggle()
+            currentNode = currentNode!.next
+        }
+        
+        return middleNode
     }
 }
 
@@ -74,6 +93,12 @@ class TestCase: XCTestCase {
         return serialization
     }
     
+    @objc func testHelperFunctions() {
+        let input = getList(from: [1,2,3,4,5])
+        let actualOutput = getSerialization(from: input)
+        XCTAssertEqual(actualOutput, [1,2,3,4,5])
+    }
+    
     @objc func testA() {
         let solution = Solution()
         let input = getList(from: [1,2,3,4,5])
@@ -81,7 +106,7 @@ class TestCase: XCTestCase {
         let actualOutput = solution.middleNode(input)
         XCTAssertEqual(getSerialization(from: actualOutput), expectedOutput)
     }
-    
+
     @objc func testB() {
         let solution = Solution()
         let input = getList(from: [1,2,3,4,5,6])
@@ -89,6 +114,23 @@ class TestCase: XCTestCase {
         let actualOutput = solution.middleNode(input)
         XCTAssertEqual(getSerialization(from: actualOutput), expectedOutput)
     }
+
+    @objc func testC() {
+        let solution = Solution()
+        let input = getList(from: [1])
+        let expectedOutput = [1]
+        let actualOutput = solution.middleNode(input)
+        XCTAssertEqual(getSerialization(from: actualOutput), expectedOutput)
+    }
+
+    @objc func testD() {
+        let solution = Solution()
+        let input = getList(from: [1,2])
+        let expectedOutput = [2]
+        let actualOutput = solution.middleNode(input)
+        XCTAssertEqual(getSerialization(from: actualOutput), expectedOutput)
+    }
+
 }
 
 TestCase()
