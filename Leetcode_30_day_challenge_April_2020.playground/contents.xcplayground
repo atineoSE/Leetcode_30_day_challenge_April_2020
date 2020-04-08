@@ -8,5 +8,6 @@
         <page name='05-Buy&amp;SellStock2'/>
         <page name='06-Group Anagrams'/>
         <page name='07-Counting Elements'/>
+        <page name='08-Middle of the Linked List'/>
     </pages>
 </playground>
