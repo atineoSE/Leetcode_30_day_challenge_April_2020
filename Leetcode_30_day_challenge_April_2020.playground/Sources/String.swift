@@ -2,7 +2,7 @@ import Foundation
 
 public extension String {
     func index(at i: Int) -> String.Index? {
-        guard i < self.count else {
+        guard i < self.count && i >= 0 else {
             return nil
         }
         var index = self.startIndex
