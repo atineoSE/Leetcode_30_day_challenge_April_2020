@@ -26,26 +26,43 @@
 import Foundation
 
 class MinStack {
-
+    var arr: [Int] = []
+    var min: Int? = nil
+    
     /** initialize your data structure here. */
-    init() {
-        
-    }
+    init() {}
     
+    // Time: O(1)
     func push(_ x: Int) {
-        
+        arr.append(x)
+        if min != nil {
+            if x < min! { min = x }
+        } else {
+            min = x
+        }
     }
     
+    // Time: O(n)
     func pop() {
-        
+        let val = arr.popLast()
+        if let val = val {
+            if val == min {
+                // update min
+                min = arr.min()
+            }
+        }
     }
     
+    // Time: O(1)
     func top() -> Int {
-        return 0
+        assert(arr.count > 0)
+        return arr.last!
     }
     
+    // Time: O(1)
     func getMin() -> Int {
-        return 0
+        assert(min != nil)
+        return min!
     }
 }
 
@@ -69,5 +86,6 @@ class TestCase: XCTestCase {
         XCTAssertEqual(minStack.top(), 0)
         XCTAssertEqual(minStack.getMin(), -2)
     }
+    
 }
 TestCase()
