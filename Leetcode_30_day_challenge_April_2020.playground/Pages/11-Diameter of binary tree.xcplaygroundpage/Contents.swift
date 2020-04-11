@@ -34,8 +34,19 @@ public class TreeNode {
 }
 
 class Solution {
+    func getDepth(_ node: TreeNode?) -> Int {
+        guard let node = node else { return 0 }
+        
+        let leftDepth = getDepth(node.left)
+        let rightDepth = getDepth(node.right)
+ 
+        return 1 + max(leftDepth, rightDepth)
+    }
+    
     func diameterOfBinaryTree(_ root: TreeNode?) -> Int {
-        return 0
+        guard let root = root else { return 0 }
+    
+        return  getDepth(root.left) + getDepth(root.right)
     }
 }
 
@@ -155,7 +166,6 @@ class TestCase: XCTestCase {
         
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-    
     
     @objc func testA() {
         let solution = Solution()
