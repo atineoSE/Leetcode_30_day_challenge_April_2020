@@ -11,5 +11,6 @@
         <page name='08-Middle of the Linked List'/>
         <page name='09-Backspace String Compare'/>
         <page name='10-Min Stack'/>
+        <page name='11-Diameter of binary tree'/>
     </pages>
 </playground>
