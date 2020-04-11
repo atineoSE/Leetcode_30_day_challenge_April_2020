@@ -34,19 +34,28 @@ public class TreeNode {
 }
 
 class Solution {
+    var maxDiameter = 0
+    
+    // post-order traversal
     func getDepth(_ node: TreeNode?) -> Int {
         guard let node = node else { return 0 }
         
         let leftDepth = getDepth(node.left)
         let rightDepth = getDepth(node.right)
  
+        let diameter = leftDepth + rightDepth
+        //print("diameter \(node.val): \(diameter)")
+        if diameter > maxDiameter {
+            maxDiameter = diameter
+        }
+        
         return 1 + max(leftDepth, rightDepth)
     }
     
     func diameterOfBinaryTree(_ root: TreeNode?) -> Int {
-        guard let root = root else { return 0 }
-    
-        return  getDepth(root.left) + getDepth(root.right)
+        _ = getDepth(root)
+        
+        return  maxDiameter
     }
 }
 
@@ -73,18 +82,21 @@ func serializeBF(root: TreeNode?) -> [Int] {
     return serialization
 }
 
-func createTreeBF(_ arr: [Int]) -> TreeNode? {
+func createTreeBF(_ arr: [Int?]) -> TreeNode? {
     guard let first = arr.first else { return nil }
     
-    let root = TreeNode(first)
-    for val in arr[1...] {
-        insertBF(val: val, root: root)
+    let root = first != nil ? TreeNode(first!) : nil
+    
+    if root != nil {
+        for val in arr[1...] {
+            insertBF(val: val, root: root!)
+        }
     }
     
     return root
 }
 
-func insertBF(val: Int, root: TreeNode) {
+func insertBF(val: Int?, root: TreeNode) {
     var queue = [root]
     
     while !queue.isEmpty {
@@ -92,14 +104,14 @@ func insertBF(val: Int, root: TreeNode) {
         if let left = currentNode.left {
             queue.append(left)
         } else {
-            currentNode.left = TreeNode(val)
+            currentNode.left = val != nil ? TreeNode(val!) : nil
             break
         }
 
         if let right = currentNode.right {
             queue.append(right)
         } else {
-            currentNode.right = TreeNode(val)
+            currentNode.right = val != nil ? TreeNode(val!) : nil
             break
         }
     }
@@ -117,7 +129,7 @@ extension TreeNode: Equatable {
 
 // MARK: Tests
 class TestCase: XCTestCase {
-    
+
     @objc func testTreeEqualityForEqual() {
         let root1 = TreeNode(1)
         root1.left = TreeNode(2)
@@ -174,5 +186,16 @@ class TestCase: XCTestCase {
         let actualOutput = solution.diameterOfBinaryTree(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
+    
+// Failing test though answer is correct, thus there must be a problem with creating the tree
+//    @objc func testB() {
+//        let solution = Solution()
+//        let input = [4,-7,-3,nil,nil,-9,-3,9,-7,-4,nil,6,nil,-6,-6,nil,nil,0,6,5,nil,9,nil,nil,-1,-4,nil,nil,nil,-2]
+//        let root = createTreeBF(input)
+//        let expectedOutput = 8
+//        let actualOutput = solution.diameterOfBinaryTree(root)
+//        XCTAssertEqual(actualOutput, expectedOutput)
+//    }
 }
+
 TestCase()
