@@ -31,17 +31,94 @@
 
 import Foundation
 
+func myPrint(_ arg: Any) {
+    //print(arg)
+}
+
 class Solution {
     func lastStoneWeight(_ stones: [Int]) -> Int {
-        return 0
+        assert(stones.count > 0)
+        var sortedStones = stones.sorted()
+        myPrint(sortedStones)
+        while sortedStones.count > 1 {
+            let last = sortedStones.removeLast()
+            let secondToLast = sortedStones.removeLast()
+            if last > secondToLast {
+                let newElem = last-secondToLast
+                if let idx = sortedStones.firstIndex(where: { $0 > newElem}) {
+                    sortedStones.insert(newElem, at: idx)
+                } else {
+                    sortedStones.append(newElem)
+                }
+            }
+            myPrint(sortedStones)
+        }
+        return sortedStones.count == 0 ? 0 : sortedStones[0]
     }
 }
 
 class TestCase: XCTestCase {
+    
     @objc func testA() {
         let solution = Solution()
         let expectedOutput = 1
         let actualOutput = solution.lastStoneWeight([2,7,4,1,8,1])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+
+    @objc func testB() {
+        let solution = Solution()
+        let expectedOutput = 2
+        let actualOutput = solution.lastStoneWeight([3,1])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testC() {
+        let solution = Solution()
+        let expectedOutput = 5
+        let actualOutput = solution.lastStoneWeight([5])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testD() {
+        let solution = Solution()
+        let expectedOutput = 0
+        let actualOutput = solution.lastStoneWeight([5,5])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testE() {
+        let solution = Solution()
+        let expectedOutput = 0
+        let actualOutput = solution.lastStoneWeight([1,1,2,2,5,7])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testF() {
+        let solution = Solution()
+        let expectedOutput = 1
+        let actualOutput = solution.lastStoneWeight([1,1,2,2,5,7,17])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+
+    @objc func testG() {
+        let solution = Solution()
+        let expectedOutput = 2
+        let actualOutput = solution.lastStoneWeight([3,7,8])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testH() {
+        let solution = Solution()
+        let expectedOutput = 1
+        let actualOutput = solution.lastStoneWeight([1,2,4,4])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testI() {
+        let solution = Solution()
+        let expectedOutput = 1
+        let actualOutput = solution.lastStoneWeight([434,667,378,919,212,902,240,257,208,996,411,222,557,634,425,949,755,833,785,886,40,159,932,157,764,916,85,300,130,278])
         XCTAssertEqual(actualOutput, expectedOutput)
     }
 }
