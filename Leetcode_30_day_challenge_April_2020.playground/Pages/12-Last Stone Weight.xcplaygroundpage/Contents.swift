@@ -1,5 +1,5 @@
 /*:
-[Day 11: 11/04/2020](https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3293/)
+[Day 12: 12/04/2020](https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3293/)
 
  # Last Stone Weight
 
