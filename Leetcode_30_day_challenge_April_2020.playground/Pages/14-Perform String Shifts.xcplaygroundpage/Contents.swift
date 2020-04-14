@@ -43,9 +43,40 @@
 
 import Foundation
 
+func myPrint(_ arg: Any) {
+    print(arg)
+}
+
 class Solution {
+    func reduceShifts(_ shift: [[Int]]) -> Int {
+        return shift.reduce(0) { (prev, next) -> Int in
+            return next[0] == 0 ? prev + next[1] : prev - next[1]
+        }
+    }
+    
+    func shiftLeft(_ s: String, _ positions: Int) -> String {
+        return s.string(from: positions, upTo: s.count)! + s.string(from: 0, upTo: positions)!
+    }
+    
+    func shiftRight(_ s: String, _ positions: Int) -> String {
+        return s.string(from: s.count - positions, upTo: s.count)! + s.string(from: 0, upTo: s.count - positions)!
+    }
+    
     func stringShift(_ s: String, _ shift: [[Int]]) -> String {
-        return ""
+        let shifts = reduceShifts(shift)
+        //myPrint(shifts)
+        let normalizedShifts = abs(shifts) % s.count
+        //myPrint(normalizedShifts)
+        
+        if normalizedShifts == 0 {
+            return s
+        }
+        
+        if shifts > 0 {
+            return shiftLeft(s,  normalizedShifts)
+        } else {
+            return shiftRight(s, normalizedShifts)
+        }
     }
 }
 
@@ -56,13 +87,21 @@ class TestCase: XCTestCase {
         let actualOutput = solution.stringShift("abc", [[0,1], [1,2]])
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-    
+
     @objc func testB() {
         let solution = Solution()
-        let expectedOutput = "cab"
+        let expectedOutput = "efgabcd"
         let actualOutput = solution.stringShift("abcdefg", [[1,1], [1,1], [0,2], [1,3]])
         XCTAssertEqual(actualOutput, expectedOutput)
     }
+    
+    @objc func testC() {
+        let solution = Solution()
+        let expectedOutput = "yisxjwry"
+        let actualOutput = solution.stringShift("yisxjwry", [[1,8],[1,4],[1,3],[1,6],[0,6],[1,4],[0,2],[0,1]])
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
 }
 
 TestCase()
