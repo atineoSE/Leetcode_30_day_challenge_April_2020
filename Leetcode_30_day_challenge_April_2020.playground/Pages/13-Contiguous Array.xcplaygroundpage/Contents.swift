@@ -1,5 +1,5 @@
 /*:
- [Day 12: 13/04/2020](https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3298/)
+ [Day 13: 13/04/2020](https://leetcode.com/explore/challenge/card/30-day-leetcoding-challenge/529/week-2/3298/)
  
  # Contiguous Array
  

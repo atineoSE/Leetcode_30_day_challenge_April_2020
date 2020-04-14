@@ -14,5 +14,6 @@
         <page name='11-Diameter of binary tree'/>
         <page name='12-Last Stone Weight'/>
         <page name='13-Contiguous Array'/>
+        <page name='14-Perform String Shifts'/>
     </pages>
 </playground>
