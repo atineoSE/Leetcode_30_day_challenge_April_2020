@@ -16,5 +16,6 @@
         <page name='13-Contiguous Array'/>
         <page name='14-Perform String Shifts'/>
         <page name='15-Product of Array Except Self'/>
+        <page name='16-Valid Parenthesis String'/>
     </pages>
 </playground>
