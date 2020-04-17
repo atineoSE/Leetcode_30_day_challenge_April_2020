@@ -1,6 +1,15 @@
 import Foundation
 
 public extension String {
+    
+    func index(from index: String.Index?, offsetBy: Int) -> String.Index? {
+        guard let index = index else { return nil }
+        
+        var newIndex = index
+        self.formIndex(&newIndex, offsetBy: offsetBy)
+        return newIndex < endIndex ? newIndex : nil
+    }
+    
     func index(at i: Int) -> String.Index? {
         guard i < self.count && i >= 0 else {
             return nil
