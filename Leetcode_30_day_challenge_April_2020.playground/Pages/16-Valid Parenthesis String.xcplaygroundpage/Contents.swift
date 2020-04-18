@@ -106,6 +106,11 @@ class Solution {
                 tail = String(s[nextIndex...])
             }
             
+            let s2c = s[s.startIndex..<firstMatchIndex] + "" + tail
+            if f(s2c, level-1) {
+                return true
+            }
+            
             let s2a = s[s.startIndex..<firstMatchIndex] + "(" + tail
             if f(s2a, level-1) {
                 return true
@@ -115,11 +120,7 @@ class Solution {
             if f(s2b, level-1) {
                 return true
             }
-            
-            let s2c = s[s.startIndex..<firstMatchIndex] + "" + tail
-            if f(s2c, level-1) {
-                return true
-            }
+
         }
         return false
     }
