@@ -45,9 +45,43 @@ func getChars(_ string: String) -> [[Character]] {
     return output
 }
 
+// Space: O(N*M)
+// Time: O((N*M)^2) worst case, but expected case O(N*M)
 class Solution {
+    func traverse(_ grid: [[Character]], _ i: Int, _ j: Int, _ visited: inout [[Bool]]) -> Bool {
+        guard i < grid.count, i >= 0 else { return false }
+        guard j < grid[0].count, j >= 0 else { return false }
+        guard !visited[i][j] else { return false }
+        guard grid[i][j] == Character("1") else { return false }
+        
+        visited[i][j] = true
+        
+        traverse(grid, i-1, j, &visited)
+        traverse(grid, i, j-1, &visited)
+        traverse(grid, i, j+1, &visited)
+        traverse(grid, i+1, j, &visited)
+        
+        return true
+    }
+    
     func numIslands(_ grid: [[Character]]) -> Int {
-        return 0
+        guard grid.count > 0 else { return 0 }
+        
+        var visited: [[Bool]] = Array.init(repeating: Array.init(repeating: false, count: grid[0].count), count: grid.count)
+        var i = 0
+        var islandCount = 0
+        while i < grid.count {
+            var j = 0
+            let row = grid[i]
+            while j < row.count {
+                if traverse(grid, i,j, &visited) {
+                    islandCount += 1
+                }
+                j += 1
+            }
+            i += 1
+        }
+        return islandCount
     }
 }
 
@@ -80,7 +114,29 @@ class TestCase: XCTestCase {
         let actualOutput = solution.numIslands(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-
+    
+    @objc func testC() {
+        let solution = Solution()
+        let s = """
+                """
+        let input = getChars(s)
+        let expectedOutput = 0
+        let actualOutput = solution.numIslands(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+    
+    @objc func testD() {
+        let solution = Solution()
+        let s = """
+                111
+                010
+                111
+                """
+        let input = getChars(s)
+        let expectedOutput = 1
+        let actualOutput = solution.numIslands(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
 }
 
 TestCase()
