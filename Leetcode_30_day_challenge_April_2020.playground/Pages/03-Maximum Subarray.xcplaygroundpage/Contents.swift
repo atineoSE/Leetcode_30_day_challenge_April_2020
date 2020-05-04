@@ -28,11 +28,13 @@ class Solution {
     func maxSubArray(_ nums: [Int]) -> Int {
         assert(nums.count > 0)
 
-        return maxSubArrayA(nums)
+        //return maxSubArrayA(nums)
+        return maxSubArrayB(nums)
     }
     
-    // Time: O(nlogn)
-    // Space: O(n)
+    // Time: O(n^2)
+    // Space: O(1)
+    // Naive solution: check every possibly subarray and keep the max sum
     private func maxSubArrayA(_ nums: [Int]) -> Int {
         var maxSum = nums[0]
         myPrint(maxSum)
@@ -57,6 +59,26 @@ class Solution {
             myPrint("")
             i += 1
         }
+        return maxSum
+    }
+    
+    // Time: O(n)
+    // Space: O(1)
+    // Insight: you can keep the max sum in a single traversal, by keeping a curSum variable, which holds
+    // a) the begining of a new strike (if it is more favorable to discard what has been accumulated)
+    // b) a growing strike (if is more favorable to keep adding new numbers to the currently accumulated local sum)
+    private func maxSubArrayB(_ nums: [Int]) -> Int {
+        var maxSum = nums[0]
+        var curSum = nums[0]
+        var i = 1
+        while i < nums.count {
+            curSum = max(nums[i], curSum + nums[i])
+            if curSum > maxSum {
+                maxSum = curSum
+            }
+            i += 1
+        }
+        
         return maxSum
     }
 }
