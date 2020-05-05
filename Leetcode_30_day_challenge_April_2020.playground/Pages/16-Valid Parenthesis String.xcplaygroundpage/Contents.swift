@@ -34,10 +34,14 @@
 
 import Foundation
 
+func myPrint(_ arg: Any) {
+    //print(arg)
+}
+
 class Solution {
     
     func hasMatchingParenthesis(_ s: String) ->  Bool {
-        //print("\"\(s)\"")
+        myPrint("\"\(s)\"")
         
         var numUnmatchedLeftParenthesis = 0
         
@@ -92,7 +96,7 @@ class Solution {
         return numUnmatchedLeftParenthesis > 0
     }
     
-    func f(_ s: String, _ level: Int) -> Bool {
+    func traverseString(_ s: String, _ level: Int) -> Bool {
         guard level != 0 else {
             return hasMatchingParenthesis(s)
         }
@@ -107,17 +111,17 @@ class Solution {
             }
             
             let s2c = s[s.startIndex..<firstMatchIndex] + "" + tail
-            if f(s2c, level-1) {
+            if traverseString(s2c, level-1) {
                 return true
             }
             
             let s2a = s[s.startIndex..<firstMatchIndex] + "(" + tail
-            if f(s2a, level-1) {
+            if traverseString(s2a, level-1) {
                 return true
             }
             
             let s2b = s[s.startIndex..<firstMatchIndex] + ")" + tail
-            if f(s2b, level-1) {
+            if traverseString(s2b, level-1) {
                 return true
             }
 
@@ -125,9 +129,47 @@ class Solution {
         return false
     }
     
-    func checkValidString(_ s: String) -> Bool {
+    func checkValidStringRecursive(_ s: String) -> Bool {
         let numLevels = s.reduce(0) { String($1) == "*" ? $0 + 1 : $0 }
-        return f(s, numLevels)
+        return traverseString(s, numLevels)
+    }
+    
+    func checkValidStringGreedy(_ s: String) -> Bool {
+        var low = 0     // minimum number of unmatched left parenthesis
+        var high = 0    // maximum number of unmatched left parenthesis
+    
+        var i = 0
+        while i < s.count {
+            let currentChar = s.string(at: i)!
+            if currentChar == "(" {
+                low += 1
+            } else {
+                low -= 1
+                if low < 0 {
+                    low = 0 // make zero if going negative
+                }
+            }
+            if currentChar == "(" || currentChar == "*" {
+                high += 1
+            } else {
+                high -= 1
+            }
+            
+            myPrint("low = \(low), high = \(high)")
+            
+            if high < low {
+                return false
+            }
+            
+            i += 1
+        }
+        
+        return low == 0
+    }
+    
+    func checkValidString(_ s: String) -> Bool {
+        //return checkValidStringRecursive(s)
+        return checkValidStringGreedy(s)
     }
 }
 
@@ -180,7 +222,7 @@ class TestCase: XCTestCase {
         let actualOutput = solution.checkValidString(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-    
+
     @objc func testD() {
         let solution = Solution()
         let input = ""
@@ -204,7 +246,8 @@ class TestCase: XCTestCase {
         let actualOutput = solution.checkValidString(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-    
+
+ 
     // Performance test
     @objc func testG() {
         let solution = Solution()
@@ -213,7 +256,7 @@ class TestCase: XCTestCase {
         let actualOutput = solution.checkValidString(input)
         XCTAssertEqual(actualOutput, expectedOutput)
     }
-    
+
     @objc func testH() {
         let solution = Solution()
         let input =  "(((((*(()((((*((**(((()()*)()()()*((((**)())*)*)))))))(())(()))())((*()()(((()((()*(())*(()**)()(())"
