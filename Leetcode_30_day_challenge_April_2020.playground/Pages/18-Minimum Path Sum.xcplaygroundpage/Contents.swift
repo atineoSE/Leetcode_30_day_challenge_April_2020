@@ -28,8 +28,8 @@ class Solution {
     
     // MARK: traverse forward (explores all possible paths)
     func traverseForward(_ grid: [[Int]], _ i: Int, _ j: Int) -> Int? {
-        guard i < m && i >= 0 else { return nil }
-        guard j < n && j >= 0 else { return nil }
+        guard i < n && i >= 0 else { return nil }
+        guard j < m && j >= 0 else { return nil }
         
         let down = traverseForward(grid, i+1, j)
         let right = traverseForward(grid, i, j+1)
@@ -51,19 +51,19 @@ class Solution {
         return traverseForward(grid,0,0)!
     }
     
-    // MARK: traverse backward (prune if current path is already greater than best currently found solution
+    // MARK: traverse backward (prune if current path is already greater than best currently found solution)
     var min = Int.max
 
     func peek(_ grid: [[Int]], _ i: Int, _ j: Int) -> Int? {
-        guard i < m && i >= 0 else { return nil }
-        guard j < n && j >= 0 else { return nil }
+        guard i < n && i >= 0 else { return nil }
+        guard j < m && j >= 0 else { return nil }
         
         return grid[i][j]
     }
     
     func traverseBackward(_ grid: [[Int]], _ i: Int, _ j: Int, _ accumulatedSum: Int) {
-        guard i < m && i >= 0 else { return }
-        guard j < n && j >= 0 else { return }
+        guard i < n && i >= 0 else { return }
+        guard j < m && j >= 0 else { return }
         
         let currentMin = accumulatedSum + grid[i][j]
         
@@ -95,20 +95,59 @@ class Solution {
         }
     }
     
+    // N+M-1 ops for an end-to-end traversal
+    // total number of possible traversals is proportional to N*M
+    // Time: O(N^2*M^2) (?)
     func minPathSumBackward(_ grid: [[Int]]) -> Int {
-        traverseBackward(grid, m-1, n-1, 0)
+        traverseBackward(grid, n-1, m-1, 0)
         return min
+    }
+    
+    // Time: O(N*M)
+    // Space: O(N*M)
+    func minPathSumDynamicProgramming(_ grid: [[Int]]) -> Int {
+        func getDp(_ i: Int, _ j: Int) -> Int? {
+            guard i >= 0 else { return nil }
+            guard j >= 0 else { return nil }
+            return dp[i][j]
+        }
+
+        var dp: [[Int]] = Array.init(repeating: Array.init(repeating: 0, count: m), count: n)
+        var i = 0
+        while i < n {
+            var j = 0
+            while j < m {
+                let left = getDp(i, j-1)
+                let up = getDp(i-1, j)
+                
+                if let left = left, let up = up {
+                    dp[i][j] = Swift.min(left, up) + grid[i][j]
+                } else if let left = left {
+                    dp[i][j] = left + grid[i][j]
+                } else if let up = up {
+                    dp[i][j] = up + grid[i][j]
+                } else {
+                    dp[i][j] = grid[i][j]
+                }
+                
+                j += 1
+            }
+            i += 1
+        }
+        
+        return dp[n-1][m-1]
     }
     
     // MARK: main
     
     func minPathSum(_ grid: [[Int]]) -> Int {
-        m = grid.count
-        guard m > 0 else { return 0 }
-        n = grid[0].count
+        n = grid.count
+        guard n > 0 else { return 0 }
+        m = grid[0].count
         
         //return minPathSumForward(grid)
-        return minPathSumBackward(grid)
+        //return minPathSumBackward(grid)
+        return minPathSumDynamicProgramming(grid)
     }
 }
 
@@ -129,6 +168,14 @@ class TestCase: XCTestCase {
         XCTAssertEqual(actualOutput, expectedOutput)
     }
     
+    @objc func testC() {
+        let solution = Solution()
+        let input:[[Int]] = [[1,2],[1,1]]
+        let expectedOutput = 3
+        let actualOutput = solution.minPathSum(input)
+        XCTAssertEqual(actualOutput, expectedOutput)
+    }
+
     // Performance test
 //    @objc func testC() {
 //        let solution = Solution()
