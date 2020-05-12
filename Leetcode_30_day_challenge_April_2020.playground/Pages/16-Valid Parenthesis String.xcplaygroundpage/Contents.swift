@@ -3,32 +3,34 @@
 
 # Valid Parenthesis String
 
- Given a string containing only three types of characters: '(', ')' and '*', write a function to check whether this string is valid. We define the validity of a string by these rules:
-
- Any left parenthesis '(' must have a corresponding right parenthesis ')'.
- Any right parenthesis ')' must have a corresponding left parenthesis '('.
- Left parenthesis '(' must go before the corresponding right parenthesis ')'.
- '*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string.
- An empty string is also valid.
+ Given a string containing only three types of characters: `(`, `)` and `*`, write a function to check whether this string is valid. We define the validity of a string by these rules:
+ * Any left parenthesis `(` must have a corresponding right parenthesis `)`.
+ * Any right parenthesis `)` must have a corresponding left parenthesis `(`.
+ * Left parenthesis `(` must go before the corresponding right parenthesis `)`.
+ `*` could be treated as a single right parenthesis `)` or a single left parenthesis `(` or an empty string.
+ * An empty string is also valid.
  
  Example 1:
 -----------
- Input: "()"
+ Input: `"()"`
+ 
  Output: True
  
  Example 2:
 -----------
- Input: "(*)"
+ Input: `"(*)"`
+ 
  Output: True
  
  Example 3:
 -----------
- Input: "(*))"
+ Input: `"(*))"`
+ 
  Output: True
  
  Note:
 -----------
- The string size will be in the range [1, 100].
+ * The string size will be in the range [1, 100].
  
 */
 
@@ -90,7 +92,6 @@ class Solution {
                     return true
                 }
             }
-            
         }
         
         return numUnmatchedLeftParenthesis > 0
@@ -105,26 +106,26 @@ class Solution {
         //post-order traversal
         let firstMatchIndex = s.firstIndex { String($0) == "*" }
         if let firstMatchIndex = firstMatchIndex {
+            let head = s[s.startIndex..<firstMatchIndex]
             var tail = ""
             if let nextIndex = s.index(from: firstMatchIndex, offsetBy: 1) {
                 tail = String(s[nextIndex...])
             }
             
-            let s2c = s[s.startIndex..<firstMatchIndex] + "" + tail
-            if traverseString(s2c, level-1) {
-                return true
-            }
-            
-            let s2a = s[s.startIndex..<firstMatchIndex] + "(" + tail
+            let s2a = head + "" + tail
             if traverseString(s2a, level-1) {
                 return true
             }
             
-            let s2b = s[s.startIndex..<firstMatchIndex] + ")" + tail
+            let s2b = head + "(" + tail
             if traverseString(s2b, level-1) {
                 return true
             }
-
+            
+            let s2c = head + ")" + tail
+            if traverseString(s2c, level-1) {
+                return true
+            }
         }
         return false
     }
@@ -134,6 +135,7 @@ class Solution {
         return traverseString(s, numLevels)
     }
     
+    // Check python notebook for explanation
     func checkValidStringGreedy(_ s: String) -> Bool {
         var low = 0     // minimum number of unmatched left parenthesis
         var high = 0    // maximum number of unmatched left parenthesis
@@ -248,7 +250,7 @@ class TestCase: XCTestCase {
     }
 
  
-    // Performance test
+    // MARK: Performance tests
     @objc func testG() {
         let solution = Solution()
         let input =  "(*())))()))))(()))))))(((())()())()*())))(((**)*()(()())(*)))(()*(*(())(())(()()())(()()*)((*()*))"

@@ -8,13 +8,17 @@
  Example 1:
  -----------
  Input: [0,1]
+ 
  Output: 2
+ 
  Explanation: [0, 1] is the longest contiguous subarray with equal number of 0 and 1.
  
  Example 2:
  -------------
  Input: [0,1,0]
+ 
  Output: 2
+ 
  Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
  
  Note: The length of the given binary array will not exceed 50,000.
@@ -54,7 +58,7 @@ struct LazyRangeGenerator {
 }
 
 func myPrint(_ arg: Any) {
-    print(arg)
+    //print(arg)
 }
 
 class Solution {
@@ -63,7 +67,7 @@ class Solution {
         return nums.reduce(0, +) == nums.count/2
     }
     
-    // Time: O(n^3): generates all subarrays O(N^2) and reduce each O(N)
+    // Time: O(n^3): generates all subarrays O(n^2) and reduces each O(n)
     // Space: O(1)
     func findMaxLengthOO(_ nums: [Int]) -> Int {
         guard nums.count > 0 else { return 0 }
