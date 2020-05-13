@@ -5,9 +5,9 @@
  
  Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
 
- (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+ (i.e., `[0,1,2,4,5,6,7]` might become `[4,5,6,7,0,1,2]`).
 
- You are given a target value to search. If found in the array return its index, otherwise return -1.
+ You are given a `target` value to search. If found in the array return its index, otherwise return -1.
 
  You may assume no duplicate exists in the array.
 
@@ -15,12 +15,14 @@
 
  Example 1:
 ------------
- Input: nums = [4,5,6,7,0,1,2], target = 0
+ Input: `nums = [4,5,6,7,0,1,2]`, `target = 0`
+ 
  Output: 4
  
  Example 2:
 -----------
- Input: nums = [4,5,6,7,0,1,2], target = 3
+ Input: `nums = [4,5,6,7,0,1,2]`, `target = 3`
+ 
  Output: -1
  
  */
@@ -78,8 +80,8 @@ class Solution {
             }
         }
         
-        // D. The pivot is to the right
         if nums[l] < nums[m] {
+            // D. The pivot is to the right
             if target < nums[m] && target >= nums[l] {
                 // go left non-pivoted
                 return nonPivotedSearch(nums, l, l + (m-l)/2, m, target)
@@ -87,24 +89,24 @@ class Solution {
                 // go right pivoted
                 return pivotedSearch(nums, m, m + (h-m)/2, h, target)
             }
-        }
-        
-        // E. The pivot is to the left
-        if target > nums[m] && target <= nums[h] {
-            // go right non-pivoted
-            return nonPivotedSearch(nums, m, m + (h-m)/2, h, target)
         } else {
-            // go left pivoted
-            return pivotedSearch(nums, l, l + (m-l)/2, m, target)
+            // E. The pivot is to the left
+            if target > nums[m] && target <= nums[h] {
+                // go right non-pivoted
+                return nonPivotedSearch(nums, m, m + (h-m)/2, h, target)
+            } else {
+                // go left pivoted
+                return pivotedSearch(nums, l, l + (m-l)/2, m, target)
+            }
         }
     }
     
     func search(_ nums: [Int], _ target: Int) -> Int {
         guard nums.count > 0 else { return -1 }
         
-        let l = 0
-        let h = nums.count-1
-        let m = l + (h - l) / 2
+        let l = 0                   // low point in the subsequence
+        let h = nums.count-1        // high point in the subsequence
+        let m = l + (h - l) / 2     // middle point in the subsequence
         
         return pivotedSearch(nums, l, m, h, target)
     }

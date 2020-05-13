@@ -3,32 +3,35 @@
 
 # Number of Islands
  
- Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+ Given a 2d grid map of `1`s (land) and `0`s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
 
  Example 1:
 ------------
  Input:
+ ```
  11110
  11010
  11000
  00000
+ ```
 
  Output: 1
  
  Example 2:
 ------------
  Input:
+ ```
  11000
  11000
  00100
  00011
+ ```
 
  Output: 3
 
  */
 
 import Foundation
-
 
 func getChars(_ string: String) -> [[Character]] {
     var output:[[Character]] = []
@@ -45,12 +48,15 @@ func getChars(_ string: String) -> [[Character]] {
     return output
 }
 
-// Space: O(N*M)
-// Time: O((N*M)^2) worst case, but expected case O(N*M)
+// Space: O(n*m)
+// Time: O((n*m)^2) worst case, but expected case O(N*M)
 class Solution {
+    var n = 0
+    var m = 0
+    
     func traverse(_ grid: [[Character]], _ i: Int, _ j: Int, _ visited: inout [[Bool]]) -> Bool {
-        guard i < grid.count, i >= 0 else { return false }
-        guard j < grid[0].count, j >= 0 else { return false }
+        guard i < n, i >= 0 else { return false }
+        guard j < m, j >= 0 else { return false }
         guard !visited[i][j] else { return false }
         guard grid[i][j] == Character("1") else { return false }
         
@@ -65,15 +71,16 @@ class Solution {
     }
     
     func numIslands(_ grid: [[Character]]) -> Int {
-        guard grid.count > 0 else { return 0 }
+        n = grid.count
+        guard n > 0 else { return 0 }
+        m = grid[0].count
         
-        var visited: [[Bool]] = Array.init(repeating: Array.init(repeating: false, count: grid[0].count), count: grid.count)
+        var visited: [[Bool]] = Array.init(repeating: Array.init(repeating: false, count: m), count: n)
         var i = 0
         var islandCount = 0
-        while i < grid.count {
+        while i < n {
             var j = 0
-            let row = grid[i]
-            while j < row.count {
+            while j < m {
                 if traverse(grid, i,j, &visited) {
                     islandCount += 1
                 }
@@ -86,7 +93,6 @@ class Solution {
 }
 
 class TestCase: XCTestCase {
-
     @objc func testA() {
         let solution = Solution()
         let s = """
